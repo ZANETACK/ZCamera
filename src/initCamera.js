@@ -5,7 +5,7 @@ export default function (Camera) {
     Camera.prototype._newOpenCamera = function () {
         const vm = this;
         vm.newMedia.getUserMedia(vm.$options.mediaOptions).then(stream => {
-            vm.console && console.info('Camera提醒：你正在使用新版本浏览器调用摄像头')
+            console.info('Camera提醒：你正在使用新版本浏览器调用摄像头')
             vm._handleStream(stream)
         }).catch(function (error) {
             if(vm.openReject)vm.openReject({status: 'openError', error})
@@ -16,13 +16,13 @@ export default function (Camera) {
         const vm = this;
         try {
             vm.oldMedia(vm.$options.mediaOptions, function (stream) {
-                vm.console && console.info('Camera提醒：你正在使用老版本浏览器调用摄像头,为了保证质量请切换到谷歌新版本浏览器')
+                console.info('Camera提醒：你正在使用老版本浏览器调用摄像头,为了保证质量请切换到谷歌新版本浏览器')
                 vm._handleStream(stream)
             }, function (error) {
                 if(vm.openReject)vm.openReject({status: 'openError', error})
             });
         } catch (e) {
-            vm.console && console.warn('Camera提醒：你的浏览器版本过低，请切换到谷歌新版本浏览器')
+            console.warn('Camera提醒：你的浏览器版本过低，请切换到谷歌新版本浏览器')
         }
     }
     

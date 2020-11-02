@@ -6,8 +6,7 @@
  <div id="camera"></div>
 <script>
     let camera = new ZCamera({
-        el: '#camera',
-        console: false
+        el: '#camera'
     });
     
     //启动
