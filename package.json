@@ -1,15 +1,15 @@
 {
-  "name": "rollup",
+  "name": "ZCamera",
   "version": "1.0.0",
-  "description": "",
+  "description": "谷歌照相",
   "main": "index.js",
   "scripts": {
     "build:dev": "rollup --config rollup.config.dev.js",
     "build:prod": "rollup --config rollup.config.prod.js",
     "serve": "cross-env ENV=development rollup -c -w"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["照相机","图片","谷歌照相","摄像头", "camera", "相机插件"],
+  "author": "2020/11/02 <z759249314@126.com>",
   "license": "ISC",
   "devDependencies": {
     "cross-env": "^7.0.2",
@@ -21,5 +21,9 @@
     "rollup-plugin-terser": "^7.0.2",
     "@babel/core": "^7.12.3",
     "@babel/preset-env": "^7.12.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ZANETACK/ZCamera.git"
   }
 }
