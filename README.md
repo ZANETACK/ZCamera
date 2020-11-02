@@ -4,29 +4,40 @@
 # 使用
 ```html
  <div id="camera"></div>
- <script>
-   let camera = new ZCamera({
+<script>
+    let camera = new ZCamera({
         el: '#camera',
-        console: true,
-        //相机的配置
-        mediaOptions: {
-            width: 1280,
-            height: 720,
-            video: true
-        },
-        init(options){
-              console.log('options',options)
-              if(options.status === 'opening'){
-                   console.log('正在启动')
-              }
-              if(options.status === 'opened'){
-                   console.log('启动完毕')
-              }
-        },
-        stop(){
-                   console.log('照相机已经关闭')
-        }
-   })
- </script>
+        console: false
+    });
+    
+    //启动
+    let start = document.getElementById('start');
+    start.onclick = function () {
+        console.log('正在启动摄像机')
+        camera.open().then(data => {
+            console.log('status',data)
+            if(data.status === "opened"){
+                console.log('摄像机启动成功')
+            }else{
+                console.log('摄像机启动失败')
+            }
+        })
+    }
+    
+    //停止
+    let stop = document.getElementById('stop');
+    stop.onclick = function () {
+        camera.stop();
+    }
+    
+    //截图
+    let img = document.getElementById('img');
+    let cut = document.getElementById('cut');
+    cut.onclick = function () {
+        camera.cut().then(base64 => {
+            img.src = base64
+        })
+    }
+</script>
 ```
 
