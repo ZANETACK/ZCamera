@@ -11,11 +11,13 @@
         vm.$options = {
           isOpen: false,
           isLoading: false,
+          //相机的配置
           mediaOptions: {
-            //相机的配置
-            width: 1280,
-            height: 720,
-            video: true
+            audio: true,
+            video: {
+              width: 640,
+              height: 360
+            }
           }
         };
         Object.assign(vm.$options, options); //创建元素
@@ -47,8 +49,11 @@
           vm.console && console.info('Camera提醒：你正在使用新版本浏览器调用摄像头');
 
           vm._handleStream(stream);
-        })["catch"](function (err) {
-          console.warn(err);
+        })["catch"](function (error) {
+          if (vm.openReject) vm.openReject({
+            status: 'openError',
+            error: error
+          });
         });
       };
 
@@ -60,8 +65,11 @@
             vm.console && console.info('Camera提醒：你正在使用老版本浏览器调用摄像头,为了保证质量请切换到谷歌新版本浏览器');
 
             vm._handleStream(stream);
-          }, function (err) {
-            console.warn(err);
+          }, function (error) {
+            if (vm.openReject) vm.openReject({
+              status: 'openError',
+              error: error
+            });
           });
         } catch (e) {
           vm.console && console.warn('Camera提醒：你的浏览器版本过低，请切换到谷歌新版本浏览器');
@@ -93,48 +101,11 @@
 
         vm.mediaStreamTrack = typeof stream.stop === 'function' ? stream : stream.getTracks()[0];
 
-        if (vm.$options.init) {
-          vm.$options.init({
+        if (vm.openResolve) {
+          vm.openResolve({
             status: 'opened'
           });
         }
-      };
-
-      Camera.prototype.getMedia = function () {
-        return this.mediaStreamTrack;
-      };
-
-      Camera.prototype.open = function () {
-        var vm = this;
-
-        vm._html();
-
-        vm._setLoading(true);
-
-        if (vm.$options.init) {
-          vm.$options.init({
-            status: 'opening'
-          });
-        }
-
-        if (vm.newMedia && vm.newMedia.getUserMedia) {
-          vm._newOpenCamera();
-        } else if (vm.oldMedia) {
-          vm._oldOpenCamera();
-        }
-
-        return vm;
-      };
-
-      Camera.prototype.stop = function () {
-        var vm = this;
-        vm.mediaStreamTrack && vm.mediaStreamTrack.stop();
-
-        vm._setOpen(false);
-
-        vm._setLoading(false);
-
-        vm.$el.removeChild(vm.$cameraVideo);
       };
 
       Camera.prototype._setLoading = function (bool) {
@@ -148,6 +119,70 @@
 
       Camera.prototype._setOpen = function (bool) {
         this.$options.isOpen = bool;
+      };
+      /**************外部api**************/
+
+
+      Camera.prototype.open = function () {
+        var vm = this;
+        return new Promise(function (resolve, reject) {
+          vm.openResolve = resolve;
+          vm.openReject = reject;
+
+          vm._html();
+
+          vm._setLoading(true);
+
+          if (vm.newMedia && vm.newMedia.getUserMedia) {
+            vm._newOpenCamera();
+          } else if (vm.oldMedia) {
+            vm._oldOpenCamera();
+          }
+        });
+      };
+
+      Camera.prototype.stop = function () {
+        var vm = this;
+        return new Promise(function (resolve) {
+          try {
+            vm.mediaStreamTrack && vm.mediaStreamTrack.stop();
+
+            vm._setOpen(false);
+
+            vm._setLoading(false);
+
+            vm.$el.removeChild(vm.$cameraVideo);
+          } catch (e) {}
+
+          resolve({
+            status: 'stopOver'
+          });
+        });
+      };
+
+      Camera.prototype.cut = function () {
+        var vm = this;
+        return new Promise(function (resolve, reject) {
+          if (!vm.$options.isOpen) {
+            reject({
+              status: 'cutError'
+            });
+          } else {
+            var canvas = document.createElement('canvas');
+            var width = vm.$cameraVideo.videoWidth;
+            var height = vm.$cameraVideo.videoHeight;
+            canvas.width = width;
+            canvas.height = height;
+            var ctx = canvas.getContext('2d');
+            ctx.drawImage(vm.$cameraVideo, 0, 0, width, height);
+            var base64 = canvas.toDataURL('image/png');
+            resolve(base64);
+          }
+        });
+      };
+
+      Camera.prototype.getMedia = function () {
+        return this.mediaStreamTrack;
       };
     }
 

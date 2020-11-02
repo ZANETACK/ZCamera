@@ -6,7 +6,7 @@
   "scripts": {
     "build:dev": "rollup --config rollup.config.dev.js",
     "build:prod": "rollup --config rollup.config.prod.js",
-    "serve": "cross-env ENV=development rollup -c -w"
+    "serve": "cross-env ENV=development rollup --config rollup.config.dev.js -w"
   },
   "keywords": [
     "照相机",

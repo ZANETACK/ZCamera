@@ -3,40 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <title>插件</title>
-    <script src="../index.min.js"></script>
+    <script src="../index.js"></script>
 </head>
 <body>
-    <div id="camera"></div>
-    <button id="start">启动</button>
-    <button id="stop">停止</button>
-    <script>
-        let camera = new ZCamera({
-            el: '#camera',
-            console: false,
-            init(options){
-                console.log('options',options)
-                if(options.status === 'opening'){
-                    console.log('正在启动')
-                }
-                if(options.status === 'opened'){
-                    console.log('启动完毕')
-                }
-            },
-            stop(){
-                console.log('照相机已经关闭')
+<div id="camera"></div>
+<button id="start">启动</button>
+<button id="stop">停止</button>
+<button id="cut">截图</button>
+<div>
+    <img id="img" alt="">
+</div>
+<script>
+    let camera = new ZCamera({
+        el: '#camera',
+        console: false
+    });
+    
+    //启动
+    let start = document.getElementById('start');
+    start.onclick = function () {
+        console.log('正在启动摄像机')
+        camera.open().then(data => {
+            console.log('status',data)
+            if(data.status === "opened"){
+                console.log('摄像机启动成功')
+            }else{
+                console.log('摄像机启动失败')
             }
         })
-
-        
-        let start = document.getElementById('start');
-        start.onclick = function () {
-            camera.open();
-        }
-        
-        let stop = document.getElementById('stop');
-        stop.onclick = function () {
-            camera.stop();
-        }
-    </script>
+    }
+    
+    //停止
+    let stop = document.getElementById('stop');
+    stop.onclick = function () {
+        camera.stop();
+    }
+    
+    //截图
+    let img = document.getElementById('img');
+    let cut = document.getElementById('cut');
+    cut.onclick = function () {
+        camera.cut().then(base64 => {
+            img.src = base64
+        })
+    }
+</script>
 </body>
 </html>

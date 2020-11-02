@@ -5,10 +5,13 @@ export default function (Camera) {
         vm.$options = {
             isOpen: false,
             isLoading: false,
-            mediaOptions: {//相机的配置
-                width: 1280,
-                height: 720,
-                video: true,
+            //相机的配置
+            mediaOptions: {
+                audio: true,
+                video: {
+                    width: 640,
+                    height: 360
+                }
             }
         }
         Object.assign(vm.$options, options);

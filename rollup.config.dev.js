@@ -19,7 +19,7 @@ export default {
         }),
         serve({
             open: true,
-            openPage: '/public/index.html',
+            openPage: '/dist/zcamera/public/index.html',
             port: 3000,
             contentBase: ''
         }),
