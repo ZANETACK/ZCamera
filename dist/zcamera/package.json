@@ -1,0 +1,18 @@
+{
+  "name": "zcamera",
+  "version": "1.0.0",
+  "description": "谷歌照相",
+  "main": "index.js",
+  "scripts": {
+    "build:dev": "rollup --config rollup.config.dev.js",
+    "build:prod": "rollup --config rollup.config.prod.js",
+    "serve": "cross-env ENV=development rollup -c -w"
+  },
+  "keywords": ["照相机","图片","谷歌照相","摄像头", "camera", "相机插件"],
+  "author": "2020/11/02 <z759249314@126.com>",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ZANETACK/ZCamera.git"
+  }
+}
