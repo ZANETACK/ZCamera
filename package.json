@@ -8,7 +8,14 @@
     "build:prod": "rollup --config rollup.config.prod.js",
     "serve": "cross-env ENV=development rollup -c -w"
   },
-  "keywords": ["照相机","图片","谷歌照相","摄像头", "camera", "相机插件"],
+  "keywords": [
+    "照相机",
+    "图片",
+    "谷歌照相",
+    "摄像头",
+    "camera",
+    "相机插件"
+  ],
   "author": "2020/11/02 <z759249314@126.com>",
   "license": "ISC",
   "devDependencies": {
