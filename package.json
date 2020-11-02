@@ -2,7 +2,7 @@
   "name": "zcamera",
   "version": "1.0.0",
   "description": "谷歌照相",
-  "main": "index.js",
+  "main": "index.min.js",
   "scripts": {
     "build:dev": "rollup --config rollup.config.dev.js",
     "build:prod": "rollup --config rollup.config.prod.js",

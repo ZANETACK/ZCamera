@@ -6,7 +6,7 @@ import replace from 'rollup-plugin-replace';
 export default {
     input: './src/main.js',
     output: {
-        file: 'dist/camera/index.js',
+        file: 'dist/zcamera/index.js',
         name: 'ZCamera',
         format: 'umd',
         sourcemap: true,

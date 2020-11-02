@@ -6,7 +6,7 @@ import { terser } from 'rollup-plugin-terser';
 export default {
     input: './src/main.js',
     output: {
-        file: 'dist/camera/index.min.js',
+        file: 'dist/zcamera/index.min.js',
         name: 'ZCamera',
         format: 'umd',
         sourcemap: false,
